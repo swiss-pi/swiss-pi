@@ -1,0 +1,44 @@
+.hauptseite {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.kachel-reihe {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin: 32px 0;
+}
+.kachel {
+    border: 3px solid black;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+}
+.kachel-name   { font-size: 20px; }
+.kachel-anzahl { font-size: 36px; font-weight: bold; }
+
+.bereich-reihe {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+}
+.bereich {
+    border: 2px solid black;
+    border-radius: 16px;
+    padding: 24px;
+    text-align: center;
+}
+
+
+.tool-button {
+    display: block;
+    margin: 16px auto;
+    max-width: 300px;
+    padding: 12px;
+    border: 2px solid black;
+    border-radius: 10px;
+    color: black;
+    text-decoration: none;
+}

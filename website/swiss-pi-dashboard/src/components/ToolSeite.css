@@ -1,0 +1,37 @@
+.tool-seite {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.tool-kopf {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-right: 80px;
+}
+.zurueck-link {
+    color: black;
+    text-decoration: none;
+}
+
+.tool-kacheln {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    max-width: 600px;
+    margin: 48px auto;
+}
+.tool-seite .kachel {
+    border: 2px solid black;
+    border-radius: 16px;
+    padding: 40px 24px;
+    text-align: center;
+}
+.tool-seite .kachel-name   { font-size: 20px; }
+.tool-seite .kachel-anzahl { font-size: 32px; font-weight: bold; margin-top: 8px; }
+
+@media (max-width: 600px) {
+    .tool-kopf { flex-direction: column; align-items: flex-start; gap: 8px; margin-top: 60px; }
+    .tool-kacheln { grid-template-columns: 1fr; }
+}
