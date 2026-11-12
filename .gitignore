@@ -1,1 +1,4 @@
+#Things I do not want published
 .DS_Store
+browser_history
+*.env
