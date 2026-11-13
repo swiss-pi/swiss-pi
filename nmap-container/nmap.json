@@ -1,0 +1,7 @@
+{
+    "target":["localhost"],
+    "flags":[
+        "-sn",
+        "-T5"
+    ]
+}

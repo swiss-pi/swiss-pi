@@ -1,8 +1,9 @@
-# Code is provided by: https://github.com/instrumentisto/nmap-docker-image
-# Thank you intrumentisto ♥
+#* Installation process is provided by: https://github.com/instrumentisto/nmap-docker-image
+#* Thank you intrumentisto ♥
 
 # https://hub.docker.com/_/alpine
-FROM alpine:3.23
+#FROM alpine:3.23
+FROM python:3.10.10-alpine
 
 ARG nmap_ver=7.98
 ARG build_rev=2
@@ -59,5 +60,26 @@ RUN apk add --update --no-cache --virtual .build-deps \
     \
  && apk del .build-deps \
  && rm -rf /var/cache/apk/* \
-           /tmp/nmap*
+           /tmp/nmap* \
+#* --- Here starts my own code --- 
+&& mkdir -p /nmap
 
+RUN apk add --no-cache wget && \
+    apk add --no-cache build-base libffi-dev && \
+    apk add python3 py3-pip gcc musl-dev
+
+RUN pip install --no-cache-dir --upgrade pip
+COPY requirements.txt .
+#//
+RUN pip install --no-cache-dir -r requirements.txt
+
+WORKDIR /app
+COPY nmap.json .
+COPY nmap.lastknowngood.json .
+COPY nmapscript.py .
+RUN chmod 700 nmapscript.py
+
+ENTRYPOINT [ "python3", "./nmapscript.py" ]
+
+
+#SSByZWFsbHkgc2hvdWxkIGdldCBiZXR0ZXIgaW4gRG9ja2VyCg==
