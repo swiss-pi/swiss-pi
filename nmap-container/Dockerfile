@@ -3,7 +3,7 @@
 
 # https://hub.docker.com/_/alpine
 #FROM alpine:3.23
-FROM python:3.10.10-alpine
+FROM python:3.13-alpine
 
 ARG nmap_ver=7.98
 ARG build_rev=2
