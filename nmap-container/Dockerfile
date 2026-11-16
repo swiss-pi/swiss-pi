@@ -62,15 +62,16 @@ RUN apk add --update --no-cache --virtual .build-deps \
  && rm -rf /var/cache/apk/* \
            /tmp/nmap* \
 #* --- Here starts my own code --- 
-&& mkdir -p /nmap
+&& mkdir -p /app
 
+# Install python
 RUN apk add --no-cache wget && \
     apk add --no-cache build-base libffi-dev && \
     apk add python3 py3-pip gcc musl-dev
 
 RUN pip install --no-cache-dir --upgrade pip
 COPY requirements.txt .
-#//
+
 RUN pip install --no-cache-dir -r requirements.txt
 
 WORKDIR /app
