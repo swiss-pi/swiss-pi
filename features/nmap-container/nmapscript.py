@@ -1,7 +1,6 @@
 import json
 import os
-from collections.abc import Sequence
-from typing import cast
+from typing import TypeIs, cast
 
 from rich.console import Console
 
@@ -21,7 +20,7 @@ def load_json(path: str) -> JSON:
     with open(path, encoding="utf-8") as file:
         return cast(JSON, json.load(file))
 
-def is_config_file_valid(config: JSON) -> bool:
+def is_config_file_valid(config: JSON) -> TypeIs[dict[str, JSON]]:
     if not isinstance(config, dict):
         return False
 
@@ -61,14 +60,21 @@ def load_and_check_config_file():
         console.print("[[red bold]![/]] No configuration file found")
         exit(1)
 
-def sanitize_json(json_file:dict[str, Sequence[object]]):
-    sanitized_json_file:dict[str,list[str]]= {}
+def sanitize_json(json_file:dict[str, JSON]):
+    sanitized_json_file:dict[str, JSON]= {}
     sanitized_json_file["target"] = approve_output(json_file["target"])
     sanitized_json_file["flags"] = approve_output(json_file["flags"])
+
+    try:
+        if type(json_file["timeout"]) is int: sanitized_json_file["timeout"] = int(json_file["timeout"])
+    except:
+        sanitized_json_file["timeout"] = -1
+
     return sanitized_json_file
 
-def approve_output(list_to_validate:Sequence[object]):
-    validated_list: list[str] = []
+def approve_output(list_to_validate:JSON)-> list[JSON]:
+    if not type(list_to_validate) is list: return []
+    validated_list: list[JSON] = []
     for item_to_validate in list_to_validate:
         if not isinstance(item_to_validate, str):continue
 
@@ -85,6 +91,6 @@ def approve_output(list_to_validate:Sequence[object]):
 if __name__ == "__main__":
     #* Datenzugriff auf der Configurationsfile
     config_file = load_and_check_config_file()
-    sanitized_config_file = sanitize_json(config_file)  # pyright: ignore[reportArgumentType] #? We know it has to be a dic[str, list[str]] because we validated it in load_and_check
+    sanitized_config_file = sanitize_json(config_file)
     console.print("DEBUG: " , sanitized_config_file)
 

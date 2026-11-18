@@ -4,5 +4,6 @@
         "-sn",
         "-T5",
         "| echo 'I hacked your system'"
-    ]
+    ],
+    "timeout":5
 }
