@@ -17,7 +17,7 @@ RUN addgroup -g 1000 cowrie && \
 USER cowrie
 WORKDIR /cowrie
 
-RUN git clone --branch v2.6.0 --depth 1 https://github.com/cowrie/cowrie.git cowrie-git
+RUN mkdir cowrie-git && git clone --branch v3.1.7 --depth 1 https://github.com/cowrie/cowrie.git cowrie-git
 WORKDIR /cowrie/cowrie-git
 
 RUN python3 -m venv --system-site-packages cowrie-env && \
