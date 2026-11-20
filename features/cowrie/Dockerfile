@@ -25,4 +25,4 @@ RUN python3 -m venv --system-site-packages cowrie-env && \
     cowrie-env/bin/pip install .
 
 EXPOSE 2222 2223
-CMD ["/cowrie/cowrie-git/cowrie-env/bin/cowrie", "start", "-n"]
+CMD ["/cowrie/cowrie-git/cowrie-env/bin/twistd", "-n", "--umask=0022", "--pidfile=", "--logger=cowrie.python.logfile.logger", "cowrie"]
