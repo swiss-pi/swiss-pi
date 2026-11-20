@@ -11,8 +11,11 @@
     margin-right: 80px;
 }
 .zurueck-link {
-    color: black;
+    color: white;
     text-decoration: none;
+    position: absolute;
+    top: 36px;             
+    left: 24px;
 }
 
 .tool-kacheln {

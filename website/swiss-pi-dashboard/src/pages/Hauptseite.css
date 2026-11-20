@@ -1,44 +1,150 @@
 .hauptseite {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 24px;
+    padding: 16px 24px 48px;
+}
+
+.kopfzeile {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0 16px;
+    border-bottom: 1px solid var(--rand);
+}
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.logo-bild {
+    height: 60px;
+}
+.logo-text {
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: var(--text);
+}
+.logo-pi {
+    color: var(--logo-rot);
+}
+
+.begruessung {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0 24px;
+}
+.begruessung h1 {
+    margin: 0;
+    text-align: left;
+    font-size: 28px;
+    font-weight: 700;
+}
+.untertitel {
+    margin: 6px 0 0;
+    color: var(--text-grau);
+}
+.status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.12);
+    color: var(--low);
+    font-size: 14px;
+    font-weight: 600;
+}
+.status-punkt {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--low);
 }
 
 .kachel-reihe {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin: 32px 0;
+    gap: 32px;
+    margin-bottom: 32px;
 }
 .kachel {
-    border: 3px solid black;
-    border-radius: 16px;
-    padding: 24px;
-    text-align: center;
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --farbe: var(--text-grau);
+    background: var(--karte);
 }
-.kachel-name   { font-size: 20px; }
-.kachel-anzahl { font-size: 36px; font-weight: bold; }
+.kachel-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-grau);
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.kachel-punkt {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--farbe);
+}
+.kachel-anzahl {
+    margin-top: 12px;
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--farbe);
+}
 
 .bereich-reihe {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 20px;
 }
 .bereich {
-    border: 2px solid black;
-    border-radius: 16px;
+    background: var(--karte);
+    border: 1px solid var(--rand);
+    border-radius: 14px;
     padding: 24px;
-    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+.bereich h2 {
+    margin: 0 0 16px;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-
 .tool-button {
-    display: block;
-    margin: 16px auto;
-    max-width: 300px;
-    padding: 12px;
-    border: 2px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 12px;
+    padding: 14px 18px;
+    background: var(--hintergrund);
+    border: 1px solid var(--rand);
     border-radius: 10px;
-    color: black;
     text-decoration: none;
+    transition: background 0.2s, border-color 0.2s, transform 0.2s;
+}
+.tool-button:hover {
+    background: var(--karte-hover);
+    border-color: var(--akzent);
+    transform: translateX(4px);
+}
+.tool-button strong {
+    display: block;
+    font-weight: 600;
+}
+.tool-button small {
+    color: var(--text-grau);
+    font-size: 13px;
+}
+.pfeil {
+    color: var(--blau);
+    font-size: 20px;
 }

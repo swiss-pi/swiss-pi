@@ -3,7 +3,7 @@ import ToolSeite from '../components/ToolSeite.jsx'
 function Mitre() {
     return (
         <ToolSeite
-            titel="Swiss-Pi-Suricata"
+            titel="Swiss-Pi-Mitre Att&ck"
             kacheln={[
                 { name: 'Erkannte Techniken', wert: '–' },
                 { name: 'Taktiken', wert: '–' },
