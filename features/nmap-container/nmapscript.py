@@ -1,5 +1,6 @@
 import json
 import os
+import ipaddress
 from typing import TypeIs, TypedDict, cast
 from enum import Enum
 
@@ -17,7 +18,29 @@ class SanitizedConfig(TypedDict):
 
 NMAP_CONFIGURATION_FILE = "./nmap.json"
 NMAP_LASTKNOWNGOOD_FILE = "./nmap.lastknowngood.json"
-COMMAND_INJECTION_BLACKLIST = [";", "&", "|", "$", "(", ")", "`", "'"]
+APPROVED_FLAGS = [
+    "-T0",
+    "-T1",
+    "-T2",
+    "-T3",
+    "-T4",
+    "-T5",
+    "-A",
+    "-v",
+    "-vv",
+    "-vvv",
+    "-sS",
+    "-sU",
+    "-p",  # here follows a number 
+    "-p-",
+    "-Pn",
+    "-sn",
+    "-F",
+    "-sV",
+    "-O",
+    "--version-light",
+    "--traceroute",
+]
 
 class DEFAULT_SCANS(Enum):
     NO_DEFAULT = 0
@@ -29,7 +52,6 @@ class DEFAULT_SCANS(Enum):
     QUICK_PLUS = 6
     QUICK_TRACERROUTE = 7
     REGULAR = 8
-    SLOW_COMPREHENSIVE = 9
 
 DEFAULT_TIMEOUT: dict[DEFAULT_SCANS, int] = {
     DEFAULT_SCANS.INTENSE: 300,
@@ -40,7 +62,6 @@ DEFAULT_TIMEOUT: dict[DEFAULT_SCANS, int] = {
     DEFAULT_SCANS.QUICK_PLUS: 90,
     DEFAULT_SCANS.QUICK_TRACERROUTE: 5,
     DEFAULT_SCANS.REGULAR: 120,
-    DEFAULT_SCANS.SLOW_COMPREHENSIVE:5600,
 }
 
 #* __________ Accessing Configurationfiles __________
@@ -96,27 +117,51 @@ def sanitize_json(json_file:dict[str, JSON]) -> SanitizedConfig:
     scan = json_file.get("scan")
 
     return {
-        "target": approve_output(json_file["target"]),
-        "flags": approve_output(json_file["flags"]),
+        "target": approve_targets(json_file["target"]),
+        "flags": approve_flags(json_file["flags"]),
         "timeout": timeout if type(timeout) is int else -1,
         "scan": scan if type(scan) is bool else False,
     }
 
-def approve_output(list_to_validate:JSON)-> list[str]:
-    if not type(list_to_validate) is list: return []
-    validated_list: list[str] = []
-    for item_to_validate in list_to_validate:
-        if not isinstance(item_to_validate, str):continue
+def approve_targets(target_list:JSON)-> list[str]:
+    approved_target_list :list[str]= []
+    if not isinstance(target_list, list): return approved_target_list
 
-        item_approved=True
-        for blacklisted_char in COMMAND_INJECTION_BLACKLIST:
-            if blacklisted_char in item_to_validate:
-                item_approved = False
-                break
-        if item_approved:
-            validated_list.append(item_to_validate)
+    for target in target_list:
+        if not isinstance(target, str): continue
 
-    return validated_list
+        #if starting with a dash: reject immediately
+        if target[0] is "-":
+            continue
+
+        #Check if its an IP Adress
+        try:
+            _ = ipaddress.ip_address(target)
+            approved_target_list.append(target)
+            continue
+        except: 
+            # Check if its a subnet
+            try:
+                _ = ipaddress.ip_network(target, False)
+                approved_target_list.append(target)
+                continue
+            except ValueError:
+                console.print("[white]-[/]] skipped ", target, " is not a valid target")
+                continue
+
+
+        
+    return approved_target_list
+
+
+def approve_flags(flag_list:JSON)-> list[str]:
+    approved_flag_list:list[str] = []
+    if isinstance(flag_list, list):
+        for flag in flag_list:
+            if flag in APPROVED_FLAGS:
+                approved_flag_list.append(flag)
+    return approved_flag_list
+
 
 
 #*__________ Preparing for Scan __________ 
@@ -135,11 +180,18 @@ def set_timeout(user_timeout:int, default_scan:DEFAULT_SCANS)-> int:
         
         return user_timeout
 
+#* __________ Scanning __________
+def scan():
+    return
+
             
 if __name__ == "__main__":
     #* Accessing configurationfiles
     config_file = load_and_check_config_file()
     sanitized_config_file = sanitize_json(config_file)
-
+    console.print(sanitized_config_file)
     #* Preparing for scan
     timeout = set_timeout(sanitized_config_file["timeout"], DEFAULT_SCANS.NO_DEFAULT)
+
+    #* Scan
+    scan()
