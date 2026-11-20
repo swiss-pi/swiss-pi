@@ -65,7 +65,7 @@
 
 .kachel-reihe {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 32px;
     margin-bottom: 32px;
 }
@@ -147,4 +147,10 @@
 .pfeil {
     color: var(--blau);
     font-size: 20px;
+}
+
+.menue { display: flex; }
+
+@media (max-width: 700px) {
+    .menue { flex-direction: column; }
 }
